@@ -6,6 +6,6 @@ This script uses ArcPy modules, so your environment should have ArcPy library. S
 
 **NOTE:**
 
-(1) Each CSV file can contain a huge amount of geometries (+10 million), so it is highly recommended to limit the geographical scope of your CSV file. This [tool](https://colab.research.google.com/github/google-research/google-research/blob/master/building_detection/open_buildings_download_region_polygons.ipynb#scrollTo=fwxfj3B1qUWu) developed by the Open Buildings Google team will help you to define the target geographical extent when you download the CSV file.
+(1) Each CSV file can contain a huge amount of geometries (+10 million), so it is highly recommended to limit the geographical scope of your CSV file. This [download region polygons](https://colab.research.google.com/github/google-research/google-research/blob/master/building_detection/open_buildings_download_region_polygons.ipynb#scrollTo=fwxfj3B1qUWu) tool developed by the Open Buildings Google team will help you to define the target geographical extent when you download the CSV file.
 
 (2) Process time: Approximately 0.5 million geometries / about X hours with Windows 10 - AMD Ryzen 9 3900X 12-Core Processor 3.79 GHz, 32GB RAM.
