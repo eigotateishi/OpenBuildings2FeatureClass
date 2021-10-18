@@ -12,7 +12,7 @@ df_test.reset_index(inplace=True, drop=True)
 
 for i, r in df_conf.iterrows():
 ```
-For example, iloc[0:100] will retirieve the first 100 records from the original data. df_conf should be replaced by df_test.
+For example, ```pythoniloc[0:100]``` will retirieve the first 100 records from the original data. df_conf should be replaced by df_test.
 
 ## NOTE
 
