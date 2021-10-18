@@ -1,0 +1,79 @@
+# -*- coding: utf-8 -*-
+"""
+OpenBuildings2FeatureClass
+To convert the CSV file(s) of Google Open Buildings to a Feature Class.
+Coded by Eigo Tateishi (GOST, World Bank @ Washington D.C.)
+V 2021 Oct 21.
+"""
+
+import arcpy
+import pandas as pd
+
+
+### Set the workplace and read data here---------------------------------------------
+
+fn1 = 'Cairo_metropolitan_area.csv'#target Google OpenBuilding CSV file
+gdb = 'D:/GoogleBuildings.gdb'
+#Geodatabase to store the transformed data
+fc_name = 'Cairo_metropolitan_area_ALL'#The name to be used for the new feature class
+arcpy.env.workspace = gdb#ArcGIS Pro workplace setting. keep it as it is unless you need any specific adjustment.
+spRef = arcpy.SpatialReference(4326)#SPecify the spatial reference for the process. For OpenBuilding, EPSG:4326
+tarConf = 0.5#Confidence threshold, if necessary. If you want all records, insert 0.0.
+
+with open(fn1, 'r', encoding="utf-8_sig", ) as F1:
+    df = pd.read_csv(F1, sep=",")
+
+
+
+###----------------------------------------------------------------------------------
+### Specify a target field list for the InsertCursor function below.
+### This list should be exactly same as 'fields_desc' below except for 'SHAPE@' token.
+fields = [
+          'areaSize_m2',
+          'confidence',
+          'SHAPE@'
+          ]
+
+
+### Create a new empty feature class here--------------------------------------------
+
+# Set fields definition to be created within an empty feature class:
+fields_desc = [
+          ['areaSize_m2', 'Double'],
+          ['confidence', 'Double']
+          ]
+
+arcpy.management.CreateFeatureclass(gdb, fc_name, "Polygon", "", "", "", spRef)
+arcpy.management.AddFields(fc_name, fields_desc)
+
+
+
+### Cleaning the raw table and mask by target confidence level-----------------------
+df_clean = df[df['geometry'].str.contains('|'.join(['POLYGON']))].copy()
+# Select records with a valid geometry (that starts with 'POLYGON').
+# If a record starts with invalid texts (such as 'EMPTY'), the record will be removed.
+
+df_conf = df_clean[df_clean['confidence'] > tarConf].copy()
+# Mask the table by confidence level.
+
+### TO TEST THE CODE with a small chunk of data:
+#df_test = df_conf.iloc[0:100, :].copy()
+#df_test.reset_index(inplace=True, drop=True)
+
+
+
+### Main loop - Convert the CSV data to a feature class:-----------------------------
+for i, r in df_conf.iterrows():
+    
+    geomet = arcpy.FromWKT(r['geometry'], spRef)
+    area = r[2]
+    conf = r[3]
+    
+    rowList = [area, conf, geomet]
+    
+    with arcpy.da.InsertCursor(fc_name, fields) as cursor:
+        cursor.insertRow(rowList)
+
+
+
+print('END PROCESS.')
