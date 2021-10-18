@@ -1,7 +1,7 @@
 # OpenBuildings2FeatureClass
 This script is to convert the CSV file(s) of [Google Open Buildings](https://sites.research.google/open-buildings/) to a Feature Class.
 
-**How to use:**
+## How to use
 This script uses ArcPy modules, so your environment should have ArcPy library. Simply, load the script to your Tool Box on your ArcGIS Pro project and run it. The target Open Buildings CSV file must be stored in the folder where the script is located.
 
 ## NOTE
