@@ -9,7 +9,10 @@ When you want to test the script with a small chunk of a full CSV, change the co
 ```python
 df_test = df_conf.iloc[0:100, :].copy()
 df_test.reset_index(inplace=True, drop=True)
+
+for i, r in df_conf.iterrows():
 ```
+df_conf should be replaced by df_test.
 
 ## NOTE
 
