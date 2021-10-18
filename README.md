@@ -4,7 +4,7 @@ This script is to convert the CSV file(s) of [Google Open Buildings](https://sit
 ## How to use
 This script uses ArcPy modules, so your environment should have ArcPy library. Simply, load the script to your Tool Box on your ArcGIS Pro project and run it. The target Open Buildings CSV file must be stored in the folder where the script is located.
 
-When you want to test the script with a small chunk of a full CSV, change the code:
+If you want to test the script with a small chunk of a full CSV, modify the code:
 
 ```python
 df_test = df_conf.iloc[0:100, :].copy()
@@ -12,7 +12,7 @@ df_test.reset_index(inplace=True, drop=True)
 
 for i, r in df_conf.iterrows():
 ```
-df_conf should be replaced by df_test.
+iloc[0:100] will retirieve the first 100 records from the original data. df_conf should be replaced by df_test.
 
 ## NOTE
 
