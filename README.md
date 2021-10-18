@@ -17,5 +17,5 @@ For example, iloc[0:100] will retirieve the first 100 records from the original 
 ## NOTE
 
 * Each CSV file can contain a huge amount of geometries (+10 million), so it is highly recommended to limit the geographical scope of your CSV file. This [download region polygons](https://colab.research.google.com/github/google-research/google-research/blob/master/building_detection/open_buildings_download_region_polygons.ipynb#scrollTo=fwxfj3B1qUWu) tool developed by the Open Buildings Google team will help you to define the target geographical extent when you download the CSV file.
-* Process time: Approximately 0.5 million geometries / about X hours with Windows 10 - AMD Ryzen 9 3900X 12-Core Processor 3.79 GHz, 32GB RAM.
+* Process time: Approximately **0.5 million geometries / about 5 hours** with Windows 10 - AMD Ryzen 9 3900X 12-Core Processor 3.79 GHz, 32GB RAM.
 * The data could contain invalid geometries (basically 'EMPTY' geometries). These invalid geometries will be automatically removed from the resulted feature class.
