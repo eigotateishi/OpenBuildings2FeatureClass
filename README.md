@@ -6,10 +6,10 @@ This script uses ArcPy modules, so your environment should have ArcPy library. S
 
 When you want to test the script with a small chunk of a full CSV, change the code:
 
-'''Python
+```python
 df_test = df_conf.iloc[0:100, :].copy()
 df_test.reset_index(inplace=True, drop=True)
-'''
+```
 
 ## NOTE
 
