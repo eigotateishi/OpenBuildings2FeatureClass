@@ -3,7 +3,7 @@
 OpenBuildings2FeatureClass
 To convert the CSV file(s) of Google Open Buildings to a Feature Class.
 Coded by Eigo Tateishi (GOST, World Bank @ Washington D.C.)
-V 2021 Oct 21.
+V 2021 Oct 19.
 """
 
 import arcpy
@@ -12,16 +12,15 @@ import pandas as pd
 
 ### Set the workplace and read data here---------------------------------------------
 
-fn1 = 'Cairo_metropolitan_area.csv'#target Google OpenBuilding CSV file
-gdb = 'D:/GoogleBuildings.gdb'
-#Geodatabase to store the transformed data
-fc_name = 'Cairo_metropolitan_area_TEST'#The name to be used for the new feature class
-arcpy.env.workspace = gdb#ArcGIS Pro workplace setting. keep it as it is unless you need any specific adjustment.
-spRef = arcpy.SpatialReference(4326)#SPecify the spatial reference for the process. For OpenBuilding, EPSG:4326
+data = 'Cairo_metropolitan_area.csv'#Target Google OpenBuilding CSV file. Alter the path if necessary.
+gdb = 'D:/GoogleBuildings.gdb'#Geodatabase to store the transformed data.
+fc_name = 'Cairo_metropolitan_area_TEST'#The name to be used for the new feature class.
+arcpy.env.workspace = gdb#ArcGIS Pro workplace setting. Keep it as it is unless you need any specific adjustment.
+spRef = arcpy.SpatialReference(4326)#Specify the spatial reference for the process. For OpenBuilding, EPSG:4326
 tarConf = 0.5#Confidence threshold, if necessary. If you want all records, insert 0.0.
 
-with open(fn1, 'r', encoding="utf-8_sig", ) as F1:
-    df = pd.read_csv(F1, sep=",")
+with open(data, 'r', encoding="utf-8_sig", ) as F:
+    df = pd.read_csv(F, sep=",")
 
 
 
