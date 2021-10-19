@@ -63,13 +63,13 @@ df_conf = df_clean[df_clean['confidence'] > tarConf].copy()
 # Mask the table by confidence level.
 
 ### TO TEST THE CODE with a small chunk of data:
-df_test = df_conf.iloc[0:100, :].copy()
-df_test.reset_index(inplace=True, drop=True)
+#df_test = df_conf.iloc[0:100, :].copy()
+#df_test.reset_index(inplace=True, drop=True)
 
 
 
 ### Main loop - Convert the CSV data to a feature class:-----------------------------
-for i, r in df_test.iterrows():
+for i, r in df_conf.iterrows():
     
     geomet = arcpy.FromWKT(r['geometry'], spRef)
     lat = r[0]
