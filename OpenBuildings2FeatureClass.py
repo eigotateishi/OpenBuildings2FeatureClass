@@ -15,7 +15,7 @@ import pandas as pd
 fn1 = 'Cairo_metropolitan_area.csv'#target Google OpenBuilding CSV file
 gdb = 'D:/GoogleBuildings.gdb'
 #Geodatabase to store the transformed data
-fc_name = 'Cairo_metropolitan_area_ALL'#The name to be used for the new feature class
+fc_name = 'Cairo_metropolitan_area_TEST'#The name to be used for the new feature class
 arcpy.env.workspace = gdb#ArcGIS Pro workplace setting. keep it as it is unless you need any specific adjustment.
 spRef = arcpy.SpatialReference(4326)#SPecify the spatial reference for the process. For OpenBuilding, EPSG:4326
 tarConf = 0.5#Confidence threshold, if necessary. If you want all records, insert 0.0.
@@ -29,8 +29,11 @@ with open(fn1, 'r', encoding="utf-8_sig", ) as F1:
 ### Specify a target field list for the InsertCursor function below.
 ### This list should be exactly same as 'fields_desc' below except for 'SHAPE@' token.
 fields = [
+          'latitude',
+          'longitude',
           'areaSize_m2',
           'confidence',
+          'fullPlus_code',
           'SHAPE@'
           ]
 
@@ -39,8 +42,11 @@ fields = [
 
 # Set fields definition to be created within an empty feature class:
 fields_desc = [
+          ['latitude', 'Double'],
+          ['longitude', 'Double'],
           ['areaSize_m2', 'Double'],
-          ['confidence', 'Double']
+          ['confidence', 'Double'],
+          ['fullPlus_code', 'Text']
           ]
 
 arcpy.management.CreateFeatureclass(gdb, fc_name, "Polygon", "", "", "", spRef)
@@ -57,23 +63,25 @@ df_conf = df_clean[df_clean['confidence'] > tarConf].copy()
 # Mask the table by confidence level.
 
 ### TO TEST THE CODE with a small chunk of data:
-#df_test = df_conf.iloc[0:100, :].copy()
-#df_test.reset_index(inplace=True, drop=True)
+df_test = df_conf.iloc[0:100, :].copy()
+df_test.reset_index(inplace=True, drop=True)
 
 
 
 ### Main loop - Convert the CSV data to a feature class:-----------------------------
-for i, r in df_conf.iterrows():
+for i, r in df_test.iterrows():
     
     geomet = arcpy.FromWKT(r['geometry'], spRef)
+    lat = r[0]
+    long = r[1]
     area = r[2]
     conf = r[3]
+    plus = r[5]
     
-    rowList = [area, conf, geomet]
+    rowList = [lat, long, area, conf, plus, geomet]
     
     with arcpy.da.InsertCursor(fc_name, fields) as cursor:
         cursor.insertRow(rowList)
-
 
 
 print('END PROCESS.')
